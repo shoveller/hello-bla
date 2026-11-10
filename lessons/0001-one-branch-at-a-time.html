@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>첫 실습: 복잡한 조건 하나 지우기</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <script defer src="../assets/quiz.js"></script>
+</head>
+<body><main>
+  <p class="eyebrow">5분 실습 · 01 / 난독화 패턴 읽기</p>
+  <h1>무서운 식을<br>작은 질문으로</h1>
+  <p class="lead">목표: 실제 번들의 조건식 하나를 보고 <strong>언제나 참인지</strong> 스스로 판별하기. 전체 15MB를 읽을 필요는 없습니다.</p>
+
+  <section class="card" aria-labelledby="original">
+    <h2 id="original">실제 코드에서 떼어 낸 식</h2>
+    <pre><code>(Math.imul(n ^ 40, n ^ 40) &amp; 7) == 1</code></pre>
+    <p>이 번들은 앞부분의 검증값이 일치할 때 <code>n = 1771415611</code>로 설정됩니다. 이 실습은 <strong>그 경우만</strong> 다룹니다.</p>
+  </section>
+
+  <h2>세 조각만 읽어 보세요</h2>
+  <ol class="steps">
+    <li><code>^ 40</code>: 거듭제곱이 아니라 <strong>비트 XOR</strong>. 짝수 40과 XOR해도 홀수 <code>n</code>의 맨 끝 비트는 그대로라서 결과는 홀수입니다. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_XOR">MDN: XOR</a></li>
+    <li><code>Math.imul(a, a)</code>: <strong>32비트 정수 곱셈</strong>, 여기서는 같은 홀수를 두 번 곱합니다. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul">MDN: Math.imul</a></li>
+    <li><code>&amp; 7</code>: 곱의 <strong>마지막 세 비트</strong>만 남깁니다. 홀수의 제곱은 마지막 세 비트가 언제나 <code>001</code>, 곧 <code>1</code>입니다. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_AND">MDN: AND</a></li>
+  </ol>
+
+  <form class="card quiz" data-quiz data-correct="true">
+    <fieldset>
+      <legend>예상해 보기 · <code>n = 1771415611</code>일 때 이 조건식은?</legend>
+      <div class="options">
+        <label><input type="radio" name="answer" value="false"> 항상 거짓</label>
+        <label><input type="radio" name="answer" value="true"> 항상 참임</label>
+      </div>
+      <button type="submit">확인하기</button>
+      <p class="feedback" data-feedback role="status" aria-live="polite"></p>
+      <p data-explanation hidden>직접 계산하면 <code>n ^ 40 = 1771415571</code>, <code>Math.imul(1771415571, 1771415571) &amp; 7 = 1</code>입니다. 따라서 이 조건만 놓고 보면 <code>1 == 1</code>입니다.</p>
+    </fieldset>
+  </form>
+
+  <p class="note"><strong>중요:</strong> 조건이 단순해졌다고 주변의 <code>x(...)</code> 호출까지 지워도 되는 것은 아닙니다. 그 함수는 상태를 변경합니다. 이번에는 <em>조건식만</em> 판별한 것입니다.</p>
+  <p><a href="../reference/0001-constant-branch.html">한 장 참고 카드 →</a> · <a href="0002-keep-the-side-effect.html">다음 실습: 실행되는 호출 찾기 →</a></p>
+  <footer>이해되지 않는 부분은 언제든 에이전트에게 후속 질문을 해 주세요. 특히 “왜 홀수의 제곱은 <code>&amp; 7</code> 결과가 1인가요?”라고 물어도 좋습니다.</footer>
+</main></body>
+</html>

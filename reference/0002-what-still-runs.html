@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>한 장 참고: 조건을 단순화한 뒤 남는 호출</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body><main>
+  <p class="eyebrow">한 장 참고 · 02</p>
+  <h1>결과와 실행은 다릅니다</h1>
+  <div class="card"><pre><code>x(23), 1 || j(122, 2) ^ T(132, 2);
+// x(23) : 먼저 실행, 상태 변경
+// 1     : 참 같은 값
+// j/T   : OR 오른쪽이므로 실행 안 됨</code></pre></div>
+  <ol class="steps">
+    <li>결과가 고정된 <strong>조건식</strong>만 간단히 바꾼다.</li>
+    <li><code>,</code> 앞의 호출은 실행된 뒤 반환값만 버려진다.</li>
+    <li><code>||</code>의 왼쪽이 참 같은 값이면 오른쪽 호출은 실행되지 않는다.</li>
+    <li>실행되는 호출의 <strong>부수 효과</strong>는 함수 본문을 보고 판단한다.</li>
+  </ol>
+  <p class="note">한 번의 입력에서 맞는 결과를 모든 입력에 적용하지 않는다. 함수나 내장 객체가 변경되는 상황도 별도로 확인한다.</p>
+  <p><a href="../lessons/0002-keep-the-side-effect.html">두 번째 실습 다시 풀기 →</a> · <a href="0001-constant-branch.html">첫 참고 카드 →</a></p>
+  <footer>근거: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_operator">MDN 쉼표 연산자</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR">MDN 논리 OR</a></footer>
+</main></body>
+</html>

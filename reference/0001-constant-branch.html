@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>한 장 참고: 복잡한 조건식 단순화</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+</head>
+<body><main>
+  <p class="eyebrow">한 장 참고 · 01</p>
+  <h1>복잡한 조건식 읽는 순서</h1>
+  <ol class="steps">
+    <li><strong>기호 확인:</strong> 자바스크립트의 <code>^</code>는 XOR, <code>**</code>는 거듭제곱.</li>
+    <li><strong>입력 고정:</strong> <code>n</code>이 무엇인지 먼저 확인. 모르면 결과를 단정하지 않는다.</li>
+    <li><strong>작게 계산:</strong> <code>Math.imul(a, b)</code>는 32비트 정수 곱, <code>&amp; 7</code>은 마지막 세 비트만 남김.</li>
+    <li><strong>분기 판단:</strong> 조건이 언제나 참/거짓인지 판단한 뒤, 조건 옆의 함수 호출에 부수 효과가 있는지도 따로 확인.</li>
+  </ol>
+  <div class="card"><pre><code>const n = 1771415611; // 이 번들의 검증값이 맞을 때
+(Math.imul(n ^ 40, n ^ 40) &amp; 7) == 1
+// n은 홀수 → n ^ 40도 홀수 → 홀수의 제곱 &amp; 7은 1
+// 따라서 이 조건은 참</code></pre></div>
+  <p class="note"><strong>주의:</strong> 조건이 참이어도 그 앞의 <code>x(...)</code> 같은 호출은 실제 상태를 바꿀 수 있다. 조건식의 단순화와 함수 제거는 별개의 판단이다.</p>
+  <p><a href="../lessons/0001-one-branch-at-a-time.html">첫 실습 다시 풀기 →</a></p>
+  <footer>근거: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_XOR">MDN XOR</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul">MDN Math.imul</a> · <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_AND">MDN AND</a></footer>
+</main></body>
+</html>

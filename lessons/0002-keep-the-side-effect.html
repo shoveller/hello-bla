@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>두 번째 실습: 조건은 지워도 호출은 남는다</title>
+  <link rel="stylesheet" href="../assets/lesson.css">
+  <script defer src="../assets/quiz.js"></script>
+</head>
+<body><main>
+  <p class="eyebrow">5분 실습 · 02 / 난독화 패턴 읽기</p>
+  <h1>조건은 지워도<br>호출은 남는다</h1>
+  <p class="lead">목표: <a href="0001-one-branch-at-a-time.html">첫 실습</a>에서 찾은 고정값을 이용해, <strong>실행되는 호출</strong>과 <strong>건너뛰는 호출</strong>을 구별하기.</p>
+
+  <section class="card" aria-labelledby="original">
+    <h2 id="original">실제 번들의 한 부분</h2>
+    <pre><code>x(23), Math.imul(n ^ 40, n ^ 40) &amp; 7 || j(122, 2) ^ T(132, 2);</code></pre>
+    <p>원본 함수 <code>t(e)</code>의 첫 부분을 공백만 넣어 옮겼습니다. 이번에도 <code>n = 1771415611</code>인 경우를 가정합니다. <code>Math.imul</code> 등이 원래 내장 함수라는 전제입니다.</p>
+  </section>
+
+  <h2>읽는 순서</h2>
+  <ol class="steps">
+    <li>쉼표 <code>,</code>는 왼쪽의 <code>x(23)</code>을 <strong>먼저 실행</strong>합니다. 반환값만 버립니다. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Comma_operator">MDN: 쉼표 연산자</a></li>
+    <li>가운데 식의 결과는 첫 실습처럼 <code>1</code>입니다.</li>
+    <li><code>1 || 오른쪽</code>에서는 오른쪽을 <strong>실행하지 않습니다</strong>. <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_OR">MDN: OR의 단락 평가</a></li>
+  </ol>
+
+  <form class="card quiz" data-quiz data-correct="right" data-success="맞았어요! 뒤쪽 두 호출은 건너뛰고, 앞쪽 x(23)은 실행됩니다." data-retry="다시 보세요. 쉼표의 왼쪽은 OR를 만나기 전에 이미 실행됩니다.">
+    <fieldset>
+      <legend>어느 쪽 호출이 건너뛰어질까요?</legend>
+      <div class="options">
+        <label><input type="radio" name="answer" value="left"> 앞쪽 호출</label>
+        <label><input type="radio" name="answer" value="right"> 뒤쪽 호출</label>
+      </div>
+      <button type="submit">확인하기</button>
+      <p class="feedback" data-feedback role="status" aria-live="polite"></p>
+      <div data-explanation hidden>
+        <p class="legend"><span>🟠 실행되고 상태를 바꿈</span><span>🟢 결과가 고정됨</span><span>⚪ 실행되지 않음</span></p>
+        <pre><code><span class="mark-effect">x(23)</span>, <span class="mark-fixed">1</span> || <span class="mark-skipped">j(122, 2) ^ T(132, 2)</span>;
+
+// 동작을 읽기 쉽게 적으면:
+x(23); // 실제 상태 변경은 남는다</code></pre>
+        <p>번들의 <code>x</code> 함수는 <code>r.tick</code>과 배열·숫자 필드를 갱신합니다. 따라서 <code>x(23)</code>은 단순한 장식이라고 판단해 제거하면 안 됩니다.</p>
+      </div>
+    </fieldset>
+  </form>
+
+  <p class="note"><strong>주의:</strong> 이 판단은 지정한 <code>n</code> 값과 내장 함수가 변조되지 않았다는 조건에서만 유효합니다. 전체 번들에서 모든 경로가 같은지는 별도로 확인해야 합니다.</p>
+  <p><a href="../reference/0002-what-still-runs.html">복습 카드 →</a> · <a href="0001-one-branch-at-a-time.html">첫 실습으로 →</a></p>
+  <footer>풀어 본 뒤 “왜 쉼표 왼쪽은 지울 수 없나요?”처럼 헷갈리는 부분을 에이전트에게 질문해 주세요. 전체 번들을 실행하는 실습은 아닙니다.</footer>
+</main></body>
+</html>
